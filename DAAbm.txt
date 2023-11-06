@@ -1,0 +1,76 @@
+#include <iostream>
+#include<climits>
+using namespace std;
+
+int main() {
+    int e;
+    int v;
+    int infinity = INT_MAX; // Change infinity to INT_MAX from 999 to handle negative edges
+    cout << "Enter number of vertices: ";
+    cin >> v;
+    cout << "Enter number of edges: ";
+    cin >> e;
+    int mat[e][3];
+    int d[v + 1];
+    int prev[v + 1];
+    cout << "Enter vertex, such that 1 is the source vertex...\n";
+    for (int i = 0; i < e; i++) {
+        cout << "vertex1: ";
+        cin >> mat[i][0];
+        cout << "vertex2: ";
+        cin >> mat[i][1];
+        cout << "cost: ";
+        cin >> mat[i][2];
+    }
+
+    cout << "v1\t" << "v2\t" << "cost\n";
+
+    for (int j = 0; j < e; j++) {
+        cout << mat[j][0] << "\t" << mat[j][1] << "\t" << mat[j][2] << "\n";
+    }
+
+    d[0] = 0;
+    d[1] = 0;
+    for (int i = 2; i < v + 1; i++) { // Change 'e' to 'v + 1' to match the number of vertices
+        d[i] = infinity;
+    }
+    prev[0] = 0;
+    prev[1] = 0;
+    for (int a = 2; a < v + 1; a++) { // Change 'e' to 'v + 1' to match the number of vertices
+        prev[a] = infinity;
+    }
+
+    for (int i = 0; i < v - 1; i++) { // Change 'v-1' to 'v' to match the number of vertices
+        int flag = 0;
+        int j = 0;
+        for (j = 0; j < e; j++) {
+            if (d[mat[j][1]] > mat[j][2] + d[mat[j][0]]) {
+                d[mat[j][1]] = mat[j][2] + d[mat[j][0]];
+            }
+        }
+
+        for (int b = 0; b < v + 1; b++) {
+            if (prev[b] == d[b]) {
+                flag++;
+            }
+        }
+
+        for (int a = 0; a < v + 1; a++) {
+            prev[a] = d[a];
+        }
+
+        if (flag == v + 1) // Change '8' to 'v + 1' to match the number of vertices
+            break;
+
+        cout << "Iter" << i + 1 << "\n";
+        for (int p = 1; p < v + 1; p++) {
+            cout << "Edg " << p << "\t";
+        }
+        cout << "\n";
+
+        for (int p = 1; p < v + 1; p++) {
+            cout << d[p] << "\t";
+        }
+        cout << "\n";
+    }
+}

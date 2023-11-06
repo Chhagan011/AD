@@ -1,0 +1,63 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('temperatures.csv')
+
+df
+
+x = df['YEAR']
+y = df['ANNUAL']
+
+plt.xlabel('Year')
+plt.title('Temperature across INDIA')
+plt.ylabel('Annual Average Temperature')
+plt.scatter(x, y)
+
+
+x.shape
+
+x = x.values
+x
+
+x = x.reshape(117,1)
+
+x
+
+x.shape
+
+from sklearn.linear_model import LinearRegression
+
+Regressor = LinearRegression()
+
+Regressor.fit(x,y)
+
+Regressor.coef_
+
+Regressor.intercept_
+
+Regressor.predict([[2010]])
+
+Regressor.predict([[1920]])
+
+from sklearn.metrics import mean_absolute_error
+
+predicted = Regressor.predict(x)
+
+predicted
+
+mean_absolute_error(y, predicted)
+
+from sklearn.metrics import mean_squared_error
+
+mean_squared_error(y, predicted)
+
+sns.regplot(x='YEAR', y='ANNUAL', data=df)
+
+plt.xlabel('Year')
+plt.title('Temperature across INDIA')
+plt.ylabel('Annual Average Temperature')
+plt.scatter(x, y, label='actual', color='y', marker='.')
+plt.plot(x, predicted, label='predicted', color='b')
+plt.legend()
